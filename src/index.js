@@ -253,8 +253,10 @@ function addToCart(product) {
 
   if (existingItem) {
     existingItem.quantity++;
+    showToast(`Added another ${product.name} to cart ...`);
   } else {
     cart.push({ ...product, quantity: 1 });
+    showToast(`${product.name} added to cart ...`);
   }
 
   saveCart();
@@ -328,6 +330,41 @@ function changeQty(id, amount) {
   renderCart();
   updateCartCount();
 }
+
+// shows a toast message whenever a user adds an item to their cart
+function showToast(message) {
+  const toastContainer = document.getElementById("toastContainer");
+
+  const toast = document.createElement("div");
+  toast.className = `
+    flex items-center
+    px-4 py-3
+    rounded-xl
+    text-sm
+    text-[#7A4A2E]
+
+    bg-[rgba(204,85,0,0.12)]
+    backdrop-blur-lg
+    border border-[rgba(204,85,0,0.25)]
+    shadow-[0_8px_30px_rgba(0,0,0,0.08)]
+
+    animate-slide-in
+    transition-all duration-300
+  `;
+
+  toast.innerHTML = `
+    <span class="text-[#CC5500] text-xl"></span>
+    <p class="text-sm font-medium">${message}</p>
+  `;
+
+  toastContainer.appendChild(toast);
+
+  setTimeout(() => {
+    toast.classList.add("opacity-0", "translate-x-4");
+    setTimeout(() => toast.remove(), 300);
+  }, 3000);
+}
+
 
 //when a user clicks the remove button next to a product, that specific product is removed from the cart and updates the info in the cart
 function removeFromCart(id) {
