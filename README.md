@@ -1,5 +1,3 @@
-# Phase-1-Project
-
 # Verdara
 
 A sleek, single-page web application built with **HTML, CSS (Tailwind + custom)**, and **vanilla JavaScript**, powered by the [Makeup API](https://makeup-api.herokuapp.com/). This project allows users to browse beauty products by brand , price or product type, add item to cart, and checkout an order with total price tracking.
