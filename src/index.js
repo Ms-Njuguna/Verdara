@@ -95,8 +95,9 @@ function displayProducts() {
     const isOutOfStock = price === '0.00';
 
     const productCard = document.createElement('div');
+    productCard.className = "bg-[#FDFBF9] p-4 rounded-xl shadow-md";
     productCard.innerHTML = `
-      <img src="${product.image_link}" class="w-full h-48 object-cover rounded mb-3" onerror="this.onerror=null; this.src='./images/placeholders/${product.product_type?.toLowerCase().replace(/\s/g, '_')}.svg'" >
+      <img src="${product.image_link}" class="w-full h-40 sm:h-48 object-cover rounded mb-3" onerror="this.onerror=null; this.src='./images/placeholders/${product.product_type?.toLowerCase().replace(/\s/g, '_')}.svg'" >
       <h3 class="text-lg font-semibold">${product.name}</h3>
       <p class="text-sm text-black">${product.brand}</p>
       <p class="text-[#FDFBF9] font-bold">${isOutOfStock ? 'Out of stock' : '$' + price}</p>
@@ -125,17 +126,37 @@ function renderPagination() {
   const prevBtn = document.createElement("button");
   prevBtn.textContent = "Prev";
   prevBtn.disabled = currentPage === 1;
-  prevBtn.className = `px-4 py-2 mx-1 rounded border border-[#CC5500] text-[#CC5500] bg-[#FDFBF9] hover:bg-[#CC5500] hover:text-white disabled:opacity-40 shadow-sm`;
+  prevBtn.className = `
+    px-2 sm:px-4 py-1 sm:py-2 mx-1
+    text-xs sm:text-sm
+    rounded border border-[#CC5500]
+    text-[#CC5500] bg-[#FDFBF9]
+    hover:bg-[#CC5500] hover:text-white
+    disabled:opacity-40 shadow-sm
+  `;
   prevBtn.addEventListener("click", () => {
     currentPage--;
     displayProducts();
     renderPagination();
+    window.scrollTo({
+      top: document.getElementById("productDisplay").offsetTop - 80,
+      behavior: "smooth"
+    });
   });
   pagination.appendChild(prevBtn);
 
   // Determines the visible page range
-  let startPage = Math.max(1, currentPage - 2);
-  let endPage = Math.min(totalPages, currentPage + 2);
+  const isMobile = window.innerWidth < 640;
+  let startPage, endPage;
+
+  if (isMobile) {
+    // show fewer buttons on mobile
+    startPage = Math.max(1, currentPage - 1);
+    endPage = Math.min(totalPages, currentPage + 1);
+  } else {
+    startPage = Math.max(1, currentPage - 2);
+    endPage = Math.min(totalPages, currentPage + 2);
+  }
 
   if (currentPage <= 3) {
     endPage = Math.min(5, totalPages);
@@ -164,11 +185,22 @@ function renderPagination() {
   const nextBtn = document.createElement("button");
   nextBtn.textContent = "Next";
   nextBtn.disabled = currentPage === totalPages;
-  nextBtn.className = `px-4 py-2 mx-1 rounded border border-[#CC5500] text-[#CC5500] bg-[#FDFBF9] hover:bg-[#CC5500] hover:text-white disabled:opacity-40 shadow-sm`;
+  nextBtn.className = `
+    px-2 sm:px-4 py-1 sm:py-2 mx-1
+    text-xs sm:text-sm
+    rounded border border-[#CC5500]
+    text-[#CC5500] bg-[#FDFBF9]
+    hover:bg-[#CC5500] hover:text-white
+    disabled:opacity-40 shadow-sm
+  `;
   nextBtn.addEventListener("click", () => {
     currentPage++;
     displayProducts();
     renderPagination();
+    window.scrollTo({
+      top: document.getElementById("productDisplay").offsetTop - 80,
+      behavior: "smooth"
+    });
   });
   pagination.appendChild(nextBtn);
  
@@ -179,15 +211,24 @@ function renderPagination() {
 function appendPageBtn(i) {
   const pageBtn = document.createElement("button");
   pageBtn.textContent = i;
-  pageBtn.className = `px-3 py-1 mx-1 rounded border ${
-    i === currentPage ? "bg-[#CC5500] text-white shadow-md" : "text-[#FDFBF9] border-[#CC5500] shadow-md"
-    } hover:bg-[#CC5500] hover:text-white transition
+  pageBtn.className = `
+    px-2 sm:px-3 py-1 mx-1
+    text-xs sm:text-sm
+    rounded border
+    ${i === currentPage
+    ? "bg-[#CC5500] text-white shadow-md"
+    : "text-[#CC5500] border-[#CC5500] shadow-md"}
+    hover:bg-[#CC5500] hover:text-white transition
   `;
 
   pageBtn.addEventListener("click", () => {
     currentPage = i;
     displayProducts();
     renderPagination();
+    window.scrollTo({
+      top: document.getElementById("productDisplay").offsetTop - 80,
+      behavior: "smooth"
+    });
   });
 
   pagination.appendChild(pageBtn);
@@ -392,4 +433,8 @@ function handleCheckout() {
     //shows a confirmation message after checkout
     alert("Thank you for your purchase!");
   })
+}
+
+function toggleMenu() {
+  document.getElementById("mobileMenu").classList.toggle("hidden");
 }
