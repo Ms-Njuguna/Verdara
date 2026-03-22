@@ -12,9 +12,9 @@
     </head>
     <body>
         <header>
-            <nav class="bg-[#FDFBF9] px-60 pt-1 pb-1 flex justify-between items-center shadow-[0_4px_10px_rgba(0,0,0,0.05)] fixed top-0 left-0 right-0 z-50">
+            <nav class="bg-[#FDFBF9] px-4 md:px-10 lg:px-20 py-2 flex justify-between items-center shadow-[0_4px_10px_rgba(0,0,0,0.05)] fixed top-0 left-0 right-0 z-50">
                 <img src="./images/VERDARA.svg" alt="logo" class="w-24 h-24 ">
-                <ul class="md:flex gap-10 font-body text-black">
+                <ul class="hidden md:flex gap-10 font-body text-black">
                     <li class="hover:text-[#A8BBA2] cursor-pointer"><a href="#">Home</a></li>
                     <li class="hover:text-[#A8BBA2] cursor-pointer"><a href="#productDisplay">Shop All</a></li>
                     <li class="hover:text-[#A8BBA2] cursor-pointer"><a href="#productDisplay">Brands</a></li>
@@ -24,10 +24,18 @@
                     <span><svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000"><path d="M280-80q-33 0-56.5-23.5T200-160q0-33 23.5-56.5T280-240q33 0 56.5 23.5T360-160q0 33-23.5 56.5T280-80Zm400 0q-33 0-56.5-23.5T600-160q0-33 23.5-56.5T680-240q33 0 56.5 23.5T760-160q0 33-23.5 56.5T680-80ZM246-720l96 200h280l110-200H246Zm-38-80h590q23 0 35 20.5t1 41.5L692-482q-11 20-29.5 31T622-440H324l-44 80h480v80H280q-45 0-68-39.5t-2-78.5l54-98-144-304H40v-80h130l38 80Zm134 280h280-280Z"/></svg></span>
                     <span id="cartCount" class="absolute -top-2 -right-2 bg-[#FDFBF9] text-[#CC5500] border border-[olive] rounded-full text-xs px-1">0</span>
                 </div>
+                <button class="md:hidden" onclick="toggleMenu()">
+                   ☰
+                </button>
+                <ul id="mobileMenu" class="hidden flex-col absolute top-16 left-0 w-full bg-white shadow-md p-4 space-y-4">
+                    <li><a href="#">Home</a></li>
+                    <li><a href="#productDisplay">Shop</a></li>
+                    <li><a href="#heroSection">About</a></li>
+                </ul>
             </nav>
         </header>
         <main>
-            <section class="bg-[#FDFBF9]  flex items-center justify-center px-4 md:px-50 py-60 pb-16 pt-44">
+            <section class="bg-[#FDFBF9] flex items-center justify-center px-4 md:px-16 py-20 md:py-32">
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-10 items-center max-w-6xl w-full" id="heroSection">
     
                     <!-- Hero Section Text Content -->
@@ -61,7 +69,7 @@
             <section class="bg-[#8B6B5C] py-12 px-4 md:px-16 shadow-[0_10px_15px_-5px_rgba(0,0,0,0.3)] z-50 relative">
                 <h2 class="text-4xl font-glamour text-[#FDFBF9] mb-8 text-center font-bold">Explore Our Products</h2>
 
-                <div class="w-full max-w-6xl mx-auto px-4 flex justify-center flex-col sm:flex-row gap-4 mb-6">
+                <div class="w-full max-w-6xl mx-auto px-4 flex flex-col sm:flex-row gap-3 mb-6">
                     <!-- Brand Filter -->
                     <select id="brandFilter" class="border p-2 rounded w-full sm:w-auto">
                         <option value="">All Brands</option>
@@ -90,13 +98,13 @@
                     </select>
                 </div>
 
-                <div class="grid grid-cols-1 justify-center sm:grid-cols-2 md:grid-cols-3 gap-8 max-w-6xl mx-auto" id="productDisplay"></div>
+                <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 max-w-6xl mx-auto" id="productDisplay"></div>
 
                 <div id="spinner" class="hidden flex justify-center items-center h-16">
                     <div class="w-8 h-8 border-4 border-[#CC5500] border-t-transparent rounded-full animate-spin"></div>
                 </div>
 
-                <div id="pagination" class="flex justify-center mt-8 gap-2"></div>
+                <div id="pagination" class="flex justify-start sm:justify-center mt-8 gap-2 overflow-x-auto px-2"></div>
             </section>
         </main>
         <footer class="bg-[#FDFBF9] text-[#403f3f] border-t border-[#dcdcdc] ">
@@ -122,7 +130,7 @@
         </footer>
 
         <!-- CART SIDEBAR -->
-        <div id="cartPanel" class="fixed top-0 right-0 w-80 h-full bg-[#FDFBF9] shadow-lg p-4 overflow-y-auto transition-transform transform translate-x-full z-50">
+        <div id="cartPanel" class="fixed top-0 right-0 w-full sm:w-80 h-full bg-[#FDFBF9] shadow-lg p-4 overflow-y-auto transition-transform transform translate-x-full z-50">
             <div class="flex justify-between items-center mb-4">
                 <h2 class="text-xl font-bold">Your Cart</h2>
                 <button onclick="toggleCart()" class="text-lg font-bold text-[#CC5500]">&times;</button>
@@ -142,7 +150,13 @@
         <!-- TOAST CONTAINER -->
         <div
          id="toastContainer"
-         class="fixed top-24 right-6 z-[9999] space-y-3">
+         class="fixed top-20 right-2 left-2 sm:left-auto sm:right-6">
+        </div>
+
+        <div class="fixed bottom-0 left-0 right-0 bg-white border-t flex justify-around py-3 sm:hidden z-50">
+            <button onclick="window.scrollTo({top:0, behavior:'smooth'})">Home</button>
+            <button onclick="document.getElementById('productDisplay').scrollIntoView()">Shop</button>
+            <button onclick="toggleCart()">Cart</button>
         </div>
 
     </body>
